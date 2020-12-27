@@ -1,0 +1,33 @@
+<style>
+
+body { background: #cccccc ;}
+
+#spinner {
+
+width: 200px;
+height: 200px;
+border-radius: 50%;
+border-top: 20px solid #89cff0;
+border-right: 20px solid #4a95ff;
+border-left: 20px solid #326295;
+border-bottom: 20px solid #215b8f;
+background: gray;
+width: 120px;
+height: 120px;
+
+animation: spin 2s linear infinite;
+
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+    from {background-color: #89cff0;}
+  to {background-color: #215b8f;}
+}
+</style>
+
+<body>
+
+<div id = 'spinner'></div>
+
+</body>

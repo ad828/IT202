@@ -1,0 +1,82 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		
+<script type = "text/javascript"> 
+
+$(document).ready( function(){
+   $("#btn").click(function(){ 
+     var zip = $("#zip").val();
+	 var zipcheck = /\b\d{5}\b/g.test(zip);
+	 if(zip != "" && zipcheck){
+	 
+		 $.ajax({
+             type: 		"GET",
+             url: 		"weather.php",
+             data: 		"zip="+zip,
+             
+		     beforeSend: function(){ 		
+			                  $("#B").html("<div id = 'spinner'><div>");                },
+			 error: 		function(xhr, status, error) {  
+							  alert( "Error Mesaage:  \r\nNumeric code is: "  + xhr.status + " \r\nError is " + error);   },
+			 
+			 success: 	function(result){
+
+				r = JSON.parse(result);
+				res =  "<br>City: "		   + r.name +  " "			 +	 /* name of the city 			*/
+					   "<br>Temperature: " + r.main.temp + "&deg;F " +	 /* temperature in main function				*/
+				       "<br>Coordinates: " 	   + r.coord.lon + " , " + r.coord.lat	+  		/* longitude divided by latitude get in coord function	*/
+	                   "<br>Weather: "  + r.weather[0].main + "<img src ='http://openweathermap.org/img/w/"+r.weather[0].icon+".png'>" + /*access weather[0] and icon set as img */
+					   "<br>Description: " + r.weather[0].description +	 /* main's description				*/
+				       "<br>Humidity: " + r.main.humidity + " &percnt; " + //humidity in main
+					   "<br>Wind Speed: "  + r.wind.speed + "mph " + //call wind
+					   "<br>Sunrise/Epoch:" + new Date( r.sys.sunrise *1000) + " " + //sunrise time
+					   "<br>Currently:" + new Date().toLocaleTimeString(); //uses current time
+				$("#B").html(res); 
+			} //success
+		}); //ajax
+		}
+  }); //click
+});	 //ready
+
+     
+</script>
+
+<h2> Weather Report</h2> 
+
+<input 	id = "zip" type = "text" name = "zip" autocomplete="off" pattern="[0-9,{5}" required>
+<button id = "btn" type = "button">REQUEST WEATHER</button><br><br>
+
+<div    id = "B">Container for results.</div>
+
+<style>
+body{
+	background-image: url("https://www.yachtingmedia.com/magazine/wp-content/uploads/sites/2/2018/08/calm-weather.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	text-align: center;
+	border: 3px solid blue; width:50%; margin:auto; margin-top:5em; opacity: 0.8; border-radius: 25px;
+}
+#spinner {
+
+width: 80px;
+height: 80px;
+border-radius: 50%;
+border-top: 20px solid #89cff0;
+border-right: 20px solid #4a95ff;
+border-left: 20px solid #326295;
+border-bottom: 20px solid #215b8f;
+background: gray;
+width: 80px;
+height: 80px;
+margin:auto;
+animation: spin 2s linear infinite;
+opacity: 0.6;
+
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+    from {background-color: #89cff0;}
+  to {background-color: #215b8f;}
+}
+</style>
